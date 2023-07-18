@@ -17,17 +17,25 @@ debug=1
 posting_delay=1
 
 # Solar image
-solar_pics=["http://www.hamqsl.com/solarmap.php", "http://www.hamqsl.com/solar101vhfper.php", "http://www.spacew.com/www/realtime.gif"]
-toot_body="Solar data from http://www.hamqsl.com http://www.spacew.com\n\n#HamRadio #SolarData #Propagation #AmateurRadio #CBradio"
+solar_pics=["http://www.hamqsl.com/solarmap.php", "http://www.hamqsl.com/solar101vhfper.php", "https://www.sws.bom.gov.au/Images/HF%20Systems/Global%20HF/HAP%20Charts/New%20York%20LDOCF.gif"]
+toot_body="Solar data from http://www.hamqsl.com https://www.sws.bom.gov.au"
+hashtags="#SolarData #Propagation #AmateurRadio #CBradio"
 
 # Program logic below this line
 
-if len(sys.argv) < 2:
-    print("Usage: radiobot.py [config file]")
+if len(sys.argv) < 3:
+    print("Usage: radiobot.py [config file] [--with-hashtags OR --without-hashtags]")
+    print("All arguments are mandatory")
     sys.exit(1)
 
 auth_file=sys.argv[1]
 auth_session=auth_file+'.secret'
+wiwo_hashtags=sys.argv[2]
+
+# Will we mark this toot with hashtages or not ?
+# Hastag are usefull for search results in current (3.X) Mastodon
+if wiwo_hashtags == "--with-hashtags":
+    toot_body = toot_body + " " + hashtags
 
 # Returns the parameter from the specified file
 def get_config(parameter, file_path):
@@ -101,3 +109,4 @@ except:
 
 sys.exit(0)
 # end
+
